@@ -1,23 +1,36 @@
-from fastapi import Depends
-from typing import Annotated
+from data.models import Recipe 
 
-class RecipeService:
-    def list_entities(self):
-        print(f"Get list")
-        
-    def show_entity(self):
-        print(f"Get entity")
-        
-    def add_entity(self):
-        print(f"Add entity")
-        
-    def update_entity(self):
-        print(f"Update entity")
-        
-    def delete_entity(self):
-        print(f"Delete entity")
-        
-def get_service():
-    return RecipeService()
+recipes:list[Recipe] = [] 
 
-service_dependency = Annotated[RecipeService, Depends(get_service)]
+def all():
+    return recipes
+
+def add(recipe: Recipe):
+    recipes.append(recipe)
+    return recipe
+
+def show(id: int):
+    if(id >= len(recipes)):
+        return None
+    
+    recipe = recipes[id]
+    
+    return recipe
+
+def update(id: int, recipe: Recipe):
+    target = show(id)
+    
+    if target is None:
+        return None
+    
+    recipes[id] = recipe
+    
+    return recipe
+
+def remove(id: int):
+    target = show(id)
+    
+    if target is not None:
+       recipes.pop(id)
+    
+    return target
