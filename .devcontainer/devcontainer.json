@@ -1,0 +1,20 @@
+{
+    "name": "Sandbox - Fast Api",
+
+    "dockerComposeFile": [ "docker-compose.yml"],
+    
+    "service": "api",
+
+    "workspaceFolder": "/api",
+
+    "customizations": {
+        "vscode": {
+            "settings": {
+                "terminal.integrated.defaultProfile.linux": "sh"
+            },
+            "extensions": [
+                "ms-python.python"
+            ]
+        }
+    }
+}
