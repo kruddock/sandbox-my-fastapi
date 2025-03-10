@@ -10,3 +10,11 @@ services:
     ports:
       - '9045:8000'
     command: "sleep infinity"
+  db:
+    container_name: my-fast-api-db
+    image: mongo:latest
+    ports:
+      - '9046:27017'
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: secret

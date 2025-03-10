@@ -13,8 +13,11 @@
                 "terminal.integrated.defaultProfile.linux": "sh"
             },
             "extensions": [
-                "ms-python.python"
+                "ms-python.python",
+                "eamodio.gitlens"
             ]
         }
-    }
+    },
+
+    "postCreateCommand": "pip install -r requirements.txt"
 }
