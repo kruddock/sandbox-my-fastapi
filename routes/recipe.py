@@ -1,8 +1,10 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Path
+from typing import Annotated
 from data.models import Recipe
 from services.recipe import all, add, show, update, remove
 
 router = APIRouter()
+id_param = Annotated[str, Path(min_length=24, max_length=24)]
 
 @router.get("/recipes", response_model=list)
 async def list_recipes() -> list:
@@ -15,7 +17,7 @@ async def create_recipe(payload: Recipe) -> dict:
     return { "message": f"Recipe {id} has been created"}
 
 @router.get("/recipes/{id}", response_model=dict)
-async def show_recipe(id: str) -> dict:
+async def show_recipe(id: id_param) -> dict:
     recipe = show(id)
     
     if recipe is None:
@@ -24,7 +26,7 @@ async def show_recipe(id: str) -> dict:
     return recipe
 
 @router.put("/recipes/{id}", response_model=dict)
-async def update_recipe(id: str, payload: Recipe) -> dict:
+async def update_recipe(id: id_param, payload: Recipe) -> dict:
     recipe = update(id, payload)
     
     if recipe is None:
@@ -33,7 +35,7 @@ async def update_recipe(id: str, payload: Recipe) -> dict:
     return recipe
 
 @router.delete("/recipes/{id}", status_code=204)
-async def delete_recipe(id: str) -> None:
+async def delete_recipe(id: id_param) -> None:
     recipe = remove(id)
     
     if recipe is None:
