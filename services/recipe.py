@@ -2,14 +2,15 @@ from data.models import Recipe
 
 recipes:list[Recipe] = [] 
 
-def all():
+def all() -> list[Recipe]:
     return recipes
 
-def add(recipe: Recipe):
+def add(recipe: Recipe) -> Recipe:
     recipes.append(recipe)
+    
     return recipe
 
-def show(id: int):
+def show(id: int) -> Recipe | None:
     if(id >= len(recipes)):
         return None
     
@@ -17,7 +18,7 @@ def show(id: int):
     
     return recipe
 
-def update(id: int, recipe: Recipe):
+def update(id: int, recipe: Recipe) -> Recipe | None:
     target = show(id)
     
     if target is None:
@@ -27,7 +28,7 @@ def update(id: int, recipe: Recipe):
     
     return recipe
 
-def remove(id: int):
+def remove(id: int) -> Recipe | None:
     target = show(id)
     
     if target is not None:
