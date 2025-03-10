@@ -4,18 +4,18 @@ from services.recipe import all, add, show, update, remove
 
 router = APIRouter()
 
-@router.get("/recipes", response_model=list[Recipe])
-async def list_recipes() -> list[Recipe]:
+@router.get("/recipes", response_model=list)
+async def list_recipes() -> list:
     return all()
 
-@router.post("/recipes", response_model=Recipe)
-async def create_recipe(payload: Recipe) -> Recipe:
-    recipe = add(payload)
+@router.post("/recipes", response_model=dict, status_code=201)
+async def create_recipe(payload: Recipe) -> dict:
+    id = add(payload)
     
-    return recipe
+    return { "message": f"Recipe {id} has been created"}
 
-@router.get("/recipes/{id}", response_model=Recipe)
-async def show_recipe(id: int) -> Recipe:
+@router.get("/recipes/{id}", response_model=dict)
+async def show_recipe(id: str) -> dict:
     recipe = show(id)
     
     if recipe is None:
@@ -23,8 +23,8 @@ async def show_recipe(id: int) -> Recipe:
     
     return recipe
 
-@router.put("/recipes/{id}", response_model=Recipe)
-async def update_recipe(id: int, payload: Recipe) -> Recipe:
+@router.put("/recipes/{id}", response_model=dict)
+async def update_recipe(id: str, payload: Recipe) -> dict:
     recipe = update(id, payload)
     
     if recipe is None:
@@ -32,11 +32,9 @@ async def update_recipe(id: int, payload: Recipe) -> Recipe:
     
     return recipe
 
-@router.delete("/recipes/{id}", response_model=Recipe)
-async def delete_recipe(id: int) -> Recipe:
+@router.delete("/recipes/{id}", status_code=204)
+async def delete_recipe(id: str) -> None:
     recipe = remove(id)
     
     if recipe is None:
         raise HTTPException(status_code=404, detail="Recipe not found")
-    
-    return recipe

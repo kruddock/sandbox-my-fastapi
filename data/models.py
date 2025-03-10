@@ -7,5 +7,5 @@ class Recipe(BaseModel):
     
 class Todo(BaseModel):
     title: str
-    desc: str | None
+    hours: int
     is_completed: bool = False
